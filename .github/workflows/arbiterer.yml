@@ -1,0 +1,40 @@
+name: Arbiterer
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  arbiterer:
+    name: Check Discord account
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Verify Discord account
+        uses: sonolink/arbiterer@20a0f1ea7c85011c9aa253c3171b19286c22cf1c  # v1.0.0
+        with:
+          exempt-associations: OWNER,MEMBER
+          close-on-failure: true
+          rules: |
+            const MIN_AGE_DAYS = 30;
+
+            const problems = [];
+
+            if (!user.mfa_enabled) {
+              problems.push("Please, enable two-factor authentication on your Discord account.")
+            }
+
+            const createdAt = Number((BigInt(user.id) >> 22n) + 1420070400000n);
+            const ageDays = (Date.now() - createdAt) / (1000 * 60 * 60 * 24);
+            if (ageDays < MIN_AGE_DAYS) {
+              problems.push(`Your Discord account must be at least ${MIN_AGE_DAYS} days old.`);
+            }
+
+            if (problems.length > 0) {
+              core.setFailed(problems.join("\n"));
+            }
+            core.info("Discord account verification completed.");

@@ -1,0 +1,92 @@
+[project]
+dependencies = [
+    "async-lru>=2.4.0,<3",
+    "discord-py>=2.7.1,<3",
+    "packaging>=26.3,<27",
+    "pyyaml>=6.0.3,<7",
+    "sqlalchemy>=2.0.52,<3",
+    "tqdm>=4.70.1,<5",
+]
+name = "PikiBot"
+version = "0.0.0"
+requires-python = ">=3.13"
+authors = [
+    { name = "DA-344" , email = "me@dev-anony.dev" },
+]
+maintainers = [
+    { name = "DA-344", email = "me@dev-anony.dev" },
+]
+description = "A modular multipurpose bot."
+license = "PikiBot NonCommercial License"
+
+[dependency-groups]
+i18n = [
+    "babel>=2.18.0,<3",
+]
+lint = [
+    "basedpyright>=1.40.2",
+    "ruff>=0.17.1",
+]
+
+[tool.basedpyright]
+pythonVersion = "3.13"
+typeCheckingMode = "strict"
+reportPrivateUsage = false
+reportIncompatibleMethodOverride = false
+reportUnnecessaryComparison = false
+reportUnknownArgumentType = false
+reportUnknownVariableType = false
+reportMissingTypeStubs = false
+reportRedeclaration = "information"
+exclude = ["docs/"]
+
+[tool.ruff]
+exclude = ["docs/"]
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "W",
+    "I",
+    "D",
+    "RUF",
+]
+ignore = [
+    "E501",
+    "E722",
+    "D100",
+    "D101",
+    "D102",
+    "D103",
+    "D104",
+    "D105",
+    "D107",
+    "D200",
+    "D203",
+    "D205",
+    "D212",
+    "D400",
+    "D401",
+    "D404",
+    "D415",
+    "F403",
+    "F405",
+    "W293",
+    "RUF001",
+    "RUF002",
+    "RUF003",
+    "RUF029",
+    "RUF067",
+]
+unfixable = [
+    "E501",
+]
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-wrap-aliases = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
