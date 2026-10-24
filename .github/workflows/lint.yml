@@ -32,7 +32,7 @@ jobs:
           cache: "pip"
 
       - name: Install ruff
-        run: pip install -U --group dev
+        run: pip install -U --group lint
 
       - name: Run ruff format
         run: ruff format .
@@ -76,7 +76,7 @@ jobs:
           cache: "pip"
 
       - name: Install ruff
-        run: pip install -U --group dev
+        run: pip install -U --group lint
 
       - name: Check ruff formatting
         run: ruff format --check .
@@ -104,9 +104,9 @@ jobs:
           cache-dependency-path: pyproject.toml
 
       - name: Install project and basedpyright
-        run: pip install -U -e . --group dev
+        run: pip install -U -e . --group lint
 
-      - name: Run basedpyright per adapter
+      - name: Run basedpyright
         env:
           TMPDIR: ${{ runner.temp }}
         run: |
