@@ -23,6 +23,7 @@ from functools import partial
 from typing import Any, overload
 
 from PikiBot.Core.bot import PikiBot
+from PikiBot.Core.cog import PikiCog, PikiCogMeta
 from PikiBot.Core.command import (
     PikiAppCommand,
     PikiAppGroup,
@@ -71,6 +72,8 @@ __all__ = (
     "PikiAppCommand",
     "PikiAppGroup",
     "PikiBot",
+    "PikiCog",
+    "PikiCogMeta",
     "PikiCommand",
     "PikiCommandTree",
     "PikiContextMenu",

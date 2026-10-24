@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING, Any, override
 import discord
 from discord.ext import commands
 
+from .cog import PikiCog
 from .command import LocalizableMixin
 
 if TYPE_CHECKING:
@@ -54,6 +55,9 @@ class PikiHelpCommand(commands.HelpCommand):
         for item in ctx.bot.walk_commands():
             if isinstance(item, LocalizableMixin):
                 await item.cache_localized_help(ctx)
+        for cog in ctx.bot.cogs.values():
+            if isinstance(cog, PikiCog):
+                await cog.cache_localized_help(ctx)
 
         await self.prepare_help_command(ctx, command)
 
@@ -62,6 +66,16 @@ class PikiHelpCommand(commands.HelpCommand):
             return await self.send_bot_help(self.get_bot_mapping())
 
         cog = bot.get_cog(command)
+        if cog is None:
+            requested = command.casefold()
+            for candidate in bot.cogs.values():
+                if not isinstance(candidate, PikiCog) or not candidate.localize:
+                    continue
+                locale = candidate.get_user_locale(ctx)
+                translated = candidate.translated_names.get(locale)
+                if translated is not None and translated.casefold() == requested:
+                    cog = candidate
+                    break
         if cog is not None:
             return await self.send_cog_help(cog)
 
@@ -92,6 +106,22 @@ class PikiHelpCommand(commands.HelpCommand):
 
     def _localized_name(self, command: LocalizableMixin, locale: str) -> str:
         return command.translated_names.get(locale, command.name)
+
+    def _localized_cog_name(self, name: str) -> str:
+        """Return a localized category name when it belongs to a PikiCog."""
+        suffix = ":" if name.endswith(":") else ""
+        cog = self.context.bot.get_cog(name.removesuffix(":"))
+        if not isinstance(cog, PikiCog) or not cog.localize:
+            return name
+        locale = cog.get_user_locale(self.context)
+        return f"{cog.translated_names.get(locale, cog.qualified_name)}{suffix}"
+
+    def _localized_cog_description(self, cog: commands.Cog) -> str:
+        """Return the Cog description for this context's locale."""
+        if not isinstance(cog, PikiCog) or not cog.localize:
+            return cog.description
+        locale = cog.get_user_locale(self.context)
+        return cog.translated_descriptions.get(locale, cog.description)
 
     def _command_path(self, command: LocalizableMixin) -> tuple[str, str]:
         locale = command.get_user_locale(self.context)
@@ -216,6 +246,22 @@ class PikiDefaultHelpCommand(commands.DefaultHelpCommand, PikiHelpCommand):
         )
 
     @override
+    async def send_cog_help(self, cog: commands.Cog, /) -> None:
+        description = self._localized_cog_description(cog)
+        if description:
+            self.paginator.add_line(description, empty=True)
+
+        filtered = await self.filter_commands(cog.get_commands(), sort=self.sort_commands)
+        self.add_indented_commands(filtered, heading=self.commands_heading)
+
+        note = self.get_ending_note()
+        if note:
+            self.paginator.add_line()
+            self.paginator.add_line(note)
+
+        await self.send_pages()
+
+    @override
     def add_command_formatting(
         self, command: commands.Command[Any, ..., Any], /
     ) -> None:
@@ -254,7 +300,7 @@ class PikiDefaultHelpCommand(commands.DefaultHelpCommand, PikiHelpCommand):
         if not commands:
             return
 
-        self.paginator.add_line(heading)
+        self.paginator.add_line(self._localized_cog_name(heading))
         localized: list[tuple[commands.Command[Any, ..., Any], str, str]] = []
         for command in commands:
             if isinstance(command, LocalizableMixin):
@@ -347,6 +393,34 @@ class PikiMinimalHelpCommand(commands.MinimalHelpCommand, PikiHelpCommand):
         )
 
     @override
+    async def send_cog_help(self, cog: commands.Cog, /) -> None:
+        bot = self.context.bot
+        if bot.description:
+            self.paginator.add_line(bot.description, empty=True)
+
+        note = self.get_opening_note()
+        if note:
+            self.paginator.add_line(note, empty=True)
+
+        description = self._localized_cog_description(cog)
+        if description:
+            self.paginator.add_line(description, empty=True)
+
+        filtered = await self.filter_commands(cog.get_commands(), sort=self.sort_commands)
+        if filtered:
+            cog_name = self._localized_cog_name(cog.qualified_name)
+            self.paginator.add_line(f"**{cog_name} {self.commands_heading}**")
+            for command in filtered:
+                self.add_subcommand_formatting(command)
+
+            note = self.get_ending_note()
+            if note:
+                self.paginator.add_line()
+                self.paginator.add_line(note)
+
+        await self.send_pages()
+
+    @override
     def add_bot_commands_formatting(
         self,
         commands: Sequence[commands.Command[Any, ..., Any]],
@@ -364,7 +438,7 @@ class PikiMinimalHelpCommand(commands.MinimalHelpCommand, PikiHelpCommand):
             else:
                 names.append(command.name)
 
-        self.paginator.add_line(f"__**{heading}**__")
+        self.paginator.add_line(f"__**{self._localized_cog_name(heading)}**__")
         self.paginator.add_line("\u2002".join(names))
 
     @override

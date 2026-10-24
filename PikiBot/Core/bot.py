@@ -18,6 +18,7 @@ import tqdm
 from discord.ext import commands
 from sqlalchemy.ext.asyncio import AsyncEngine
 
+from .cog import PikiCog
 from .command import LocalizableMixin, PikiCommand, PikiCommandTree, PikiGroup
 from .database import Database
 from .extension import Extension, ExtensionInfo
@@ -246,6 +247,9 @@ class PikiBot(commands.Bot):
                 cmd.translated_descriptions.clear()
                 cmd.translated_help.clear()
                 cmd.translated_parameter_descriptions.clear()
+        for cog in self.cogs.values():
+            if isinstance(cog, PikiCog):
+                cog.clear_localization_cache()
 
     async def load_default_modules(
         self, *, check: Callable[[ExtensionInfo], bool] | None = None
