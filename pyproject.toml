@@ -38,10 +38,8 @@ reportUnknownArgumentType = false
 reportUnknownVariableType = false
 reportMissingTypeStubs = false
 reportRedeclaration = "information"
-exclude = ["docs/"]
 
 [tool.ruff]
-exclude = ["docs/"]
 target-version = "py313"
 
 [tool.ruff.lint]
