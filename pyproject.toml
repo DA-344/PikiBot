@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
 [project]
 dependencies = [
     "async-lru>=2.4.0,<3",
@@ -18,6 +22,19 @@ maintainers = [
 ]
 description = "A modular multipurpose bot."
 license = "PikiBot NonCommercial License"
+license-files = ["LICENSE.md"]
+keywords = [
+    "discord",
+    "bot",
+    "asyncio",
+    "discord.py",
+    "modular",
+    "python",
+    "framework",
+]
+
+[project.urls]
+Repository = "https://github.com/DA-344/PikiBot"
 
 [dependency-groups]
 i18n = [
