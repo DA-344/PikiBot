@@ -11,10 +11,10 @@ name = "PikiBot"
 version = "0.0.0"
 requires-python = ">=3.13"
 authors = [
-    { name = "DA-344" , email = "me@dev-anony.dev" },
+    { name = "DA-344" , email = "contact@dev-anony.dev" },
 ]
 maintainers = [
-    { name = "DA-344", email = "me@dev-anony.dev" },
+    { name = "DA-344", email = "contact@dev-anony.dev" },
 ]
 description = "A modular multipurpose bot."
 license = "PikiBot NonCommercial License"
