@@ -55,6 +55,7 @@ reportUnknownArgumentType = false
 reportUnknownVariableType = false
 reportMissingTypeStubs = false
 reportUnnecessaryIsInstance = false
+reportUnknownLambdaType = "information"
 reportRedeclaration = "information"
 
 [tool.ruff]

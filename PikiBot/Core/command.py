@@ -289,7 +289,7 @@ class LocalizableMixin:
         raise NotImplementedError("get_localized must be implemented by subclasses.")
 
 
-class PikiCommand[Cog: commands.Cog | None, **FuncParams, RType](
+class PikiCommand[Cog: commands.Cog | None, **FuncParams, RType](  # pyright: ignore[reportIncompatibleVariableOverride]
     commands.Command[Cog, FuncParams, RType], LocalizableMixin
 ):
     """Prefix command with optional per-catalog names, aliases, and help text.
@@ -390,7 +390,7 @@ class PikiCommand[Cog: commands.Cog | None, **FuncParams, RType](
                 await self.call_after_hooks(ctx)
 
 
-class PikiGroup[Cog: commands.Cog | None, **FuncParams, RType](
+class PikiGroup[Cog: commands.Cog | None, **FuncParams, RType](  # pyright: ignore[reportIncompatibleVariableOverride]
     commands.Group[Cog, FuncParams, RType], LocalizableMixin
 ):
     """Prefix command group with optional per-catalog names, aliases, and help text.
@@ -537,7 +537,7 @@ class PikiGroup[Cog: commands.Cog | None, **FuncParams, RType](
                 continue
             names = await child.get_localized_names(ctx)
             matches = (
-                (lambda name: name.casefold() == trigger.casefold())
+                (lambda name: name.casefold() == trigger.casefold())  # pyright: ignore[reportUnknownMemberType]
                 if self.case_insensitive
                 else (lambda name: name == trigger)
             )
