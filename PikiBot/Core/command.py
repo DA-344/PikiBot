@@ -1,7 +1,7 @@
 """
-MIT License
+PikiBot Noncommercial License 1.1.0
 
-Copyright (c) 2026-present, DA-344
+(c) Copyright 2026-present, DA-344
 """
 
 from __future__ import annotations

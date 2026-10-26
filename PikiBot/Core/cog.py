@@ -1,5 +1,5 @@
 """
-PikiBot NonCommercial License 1.0.0
+PikiBot Noncommercial License 1.1.0
 
 (c) Copyright 2026-present, DA-344
 """
@@ -41,7 +41,7 @@ class PikiCogMeta(commands.CogMeta):
         return super().__new__(cls, *args, **kwargs)  # pyright: ignore[reportReturnType]
 
 
-class PikiCog(commands.Cog, LocalizableMixin, metaclass=PikiCogMeta):
+class PikiCog(commands.Cog, LocalizableMixin, metaclass=PikiCogMeta):  # pyright: ignore[reportIncompatibleVariableOverride]
     """A discord.py Cog whose name and description can be localized in help output.
 
     Parameters
@@ -101,12 +101,12 @@ class PikiCog(commands.Cog, LocalizableMixin, metaclass=PikiCogMeta):
     @property
     def translated_names(self) -> dict[str, str]:
         """Localized Cog names keyed by catalog locale."""
-        return self.__dict__.setdefault("_piki_translated_names", {})  # pyright: ignore[reportAttributeAccessIssue]
+        return self.__dict__.setdefault("_piki_translated_names", {})  # pyright: ignore[reportAttributeAccessIssue,reportUnknownMemberType]
 
     @property
     def translated_descriptions(self) -> dict[str, str]:
         """Localized Cog descriptions keyed by catalog locale."""
-        return self.__dict__.setdefault("_piki_translated_descriptions", {})  # pyright: ignore[reportAttributeAccessIssue]
+        return self.__dict__.setdefault("_piki_translated_descriptions", {})  # pyright: ignore[reportAttributeAccessIssue,reportUnknownMemberType]
 
     async def cache_localized_help(self, context: Context, /) -> None:
         """Cache this Cog's translated name and description for the context locale."""

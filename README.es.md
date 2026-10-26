@@ -54,7 +54,7 @@ El proyecto intenta seguir [el Versionado Semántico](https://semver.org/lang/es
 
 ## Licencia
 
-El código original de PikiBot está disponible bajo la **PikiBot NonCommercial License 1.0.0**.
+El código original de PikiBot está disponible bajo la **PikiBot Noncommercial License 1.1.0**.
 
 La licencia permite utilizar, modificar y distribuir el código original para fines no comerciales, sujeto a sus términos y condiciones.
 

@@ -54,6 +54,7 @@ reportUnnecessaryComparison = false
 reportUnknownArgumentType = false
 reportUnknownVariableType = false
 reportMissingTypeStubs = false
+reportUnnecessaryIsInstance = false
 reportRedeclaration = "information"
 
 [tool.ruff]

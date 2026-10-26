@@ -1,5 +1,5 @@
 """
-PikiBot NonCommercial License 1.0.0
+PikiBot Noncommercial License 1.1.0
 
 (c) Copyright 2026-present, DA-344
 """
@@ -42,7 +42,7 @@ class PikiHelpCommand(commands.HelpCommand):
     """
 
     if TYPE_CHECKING:
-        context: Context
+        context: Context  # pyright: ignore[reportIncompatibleVariableOverride]
 
     def __init__(self, **options: Unpack[_HelpCommandOptions]) -> None:
         super().__init__(**options)
@@ -51,7 +51,6 @@ class PikiHelpCommand(commands.HelpCommand):
     async def command_callback(
         self, ctx: Context, /, *, command: str | None = None
     ) -> None:
-        # Help formatters are synchronous; prepare localized values before they run.
         for item in ctx.bot.walk_commands():
             if isinstance(item, LocalizableMixin):
                 await item.cache_localized_help(ctx)

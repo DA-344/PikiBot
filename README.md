@@ -53,7 +53,7 @@ This project tries to follow [Semantic Versioning](https://semver.org/).
 
 ## License
 
-Original Software of PikiBot is licensed under **PikiBot NonCommercial License 1.0.0**.
+Original Software of PikiBot is licensed under **PikiBot Noncommercial License 1.1.0**.
 
 This license allows using, modifying, and distributing the Original Software for noncommercial purposes,
 subject to the license's terms and conditions.

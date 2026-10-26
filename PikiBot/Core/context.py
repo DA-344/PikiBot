@@ -1,5 +1,5 @@
 """
-MIT License
+PikiBot Noncommercial License 1.1.0
 
 (c) Copyright 2026-present, DA-344
 """
